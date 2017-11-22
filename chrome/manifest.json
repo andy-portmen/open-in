@@ -1,0 +1,53 @@
+{
+  "name": "Open in Chrome",
+  "short_name": "ioichrome",
+  "description": "Open current page, link, or all tabs in the Chrome browser.",
+  "author": "Andy Portmen",
+  "version": "0.1.8",
+  "manifest_version": 2,
+  "permissions": [
+    "storage",
+    "tabs",
+    "contextMenus",
+    "nativeMessaging",
+    "downloads",
+    "https://api.github.com/repos/andy-portmen/native-client/releases/latest"
+  ],
+  "background": {
+    "persistent": false,
+    "scripts": [
+      "config.js",
+      "common.js"
+    ]
+  },
+  "homepage_url": "http://add0n.com/open-in.html?from=chrome",
+  "icons": {
+    "16": "data/icons/16.png",
+    "32": "data/icons/32.png",
+    "48": "data/icons/48.png",
+    "128": "data/icons/128.png"
+  },
+  "browser_action": {
+    "default_icon": {
+      "16": "data/icons/16.png",
+      "32": "data/icons/32.png",
+      "64": "data/icons/64.png"
+    }
+  },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["data/inject.js"],
+    "run_at": "document_start",
+    "all_frames": true
+  }],
+  "options_ui": {
+    "page": "data/options/index.html",
+    "chrome_style": true
+  },
+  "applications": {
+    "gecko": {
+      "id": "{086f665e-6a55-4107-9147-f9a14e72b137}",
+      "strict_min_version": "52.0"
+    }
+  }
+}

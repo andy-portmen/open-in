@@ -1,0 +1,47 @@
+{
+  "name": "Open in Firefox",
+  "short_name": "ioifirefox",
+  "description": "Open current page, link, or all tabs in the Firefox browser.",
+  "author": "Andy Portmen",
+  "version": "0.2.4",
+  "manifest_version": 2,
+  "permissions": [
+    "storage",
+    "tabs",
+    "contextMenus",
+    "nativeMessaging",
+    "downloads",
+    "https://api.github.com/repos/andy-portmen/native-client/releases/latest"
+  ],
+  "background": {
+    "persistent": false,
+    "scripts": [
+      "config.js",
+      "common.js"
+    ]
+  },
+  "homepage_url": "http://add0n.com/open-in.html?from=firefox",
+  "icons": {
+    "16": "data/icons/16.png",
+    "32": "data/icons/32.png",
+    "48": "data/icons/48.png",
+    "128": "data/icons/128.png"
+  },
+  "browser_action": {
+    "default_icon": {
+      "16": "data/icons/16.png",
+      "32": "data/icons/32.png",
+      "64": "data/icons/64.png"
+    }
+  },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["data/inject.js"],
+    "run_at": "document_start",
+    "all_frames": true
+  }],
+  "options_ui": {
+    "page": "data/options/index.html",
+    "chrome_style": true
+  }
+}

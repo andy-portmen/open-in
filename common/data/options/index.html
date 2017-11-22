@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Open In Options</title>
+  <style>
+    body {
+      padding: 10px;
+      font-family: "Helvetica Neue",Helvetica,sans-serif;
+      font-size: 12px;
+      min-width: 500px;
+    }
+    table {
+      width: 100%;
+    }
+    td:first-child {
+      width: 1px;
+      white-space: nowrap;
+    }
+    td:last-child {
+      text-align: right;
+    }
+    code {
+      background-color: rgba(0, 0, 0, 0.05);
+      padding: 0 3px;
+    }
+    hr {
+      border: none;
+      border-top: dashed 1px #ccc;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Open With Keyboard-Mouse-Click Combinations</h2>
+  <table>
+    <tr>
+      <td>Enabled</td>
+      <td><input id="enabled" type="checkbox"></td>
+    </tr>
+    <tr>
+      <td>Mouse click</td>
+      <td>
+        <select id="button">
+          <option value=0>Left Click</option>
+          <option value=1 disabled="true">Middle Click</option>
+          <option value=2 disabled="true">Right Click</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Ctrl Key</td>
+      <td><input id="ctrlKey" type="checkbox"></td>
+    </tr>
+    <tr>
+      <td>Alt Key</td>
+      <td><input id="altKey" type="checkbox"></td>
+    </tr>
+    <tr>
+      <td>Shift Key</td>
+      <td><input id="shiftKey" type="checkbox"></td>
+    </tr>
+    <tr>
+      <td>Meta Key</td>
+      <td>
+        <input id="metaKey" type="checkbox">
+      </td>
+    </tr>
+  </table>
+  <h2>Open with Left-Click</h2>
+  <table>
+    <tr>
+      <td colspan="2" style="text-align: left; white-space: normal;">Comma separated list of domains to open with the external browser when the link is opened with left-click</td>
+    </tr>
+    <tr>
+      <td colspan="2"><textarea id="hosts" style="width: 100%" rows="3" placeholder="e.g.: www.google.com, bing.com"></textarea></td>
+    </tr>
+  </table>
+  <h2>Misc</h2>
+  <table>
+    <tr>
+      <td colspan="2" style="text-align: left;">Path to the executable:</td>
+    </tr>
+    <tr>
+      <td colspan="2"><input type="text" id="path" style="width: 100%; box-sizing: border-box;"></td>
+    </tr>
+    <tr>
+      <td>Close the source tab when link is pushed</td>
+      <td><input type="checkbox" id="closeme"></td>
+    </tr>
+    <tr>
+      <td>Open FAQs page on updates</td>
+      <td><input type="checkbox" id="faqs"></td>
+    </tr>
+  </table>
+
+  <hr>
+  <p>
+    On Windows, if the path to the executable is not provided (is empty) <code id="l2"></code> is used. On Linux, if the path is not set, it is assumed <code id="l3"></code> binary can be found in the global PATH environment. On Mac OS, <code>open -a</code> command is used (with <code id="l4"></code> as the application or whatever is in the input).
+  </p>
+
+  <div>
+    <button id="save">Save</button>
+    <span id="status"></span>
+  </div>
+
+  <script src="../../config.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
