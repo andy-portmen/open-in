@@ -19,7 +19,8 @@ function restore() {
     button: 0,
     faqs: true,
     closeme: false,
-    hosts: []
+    hosts: [],
+    urls: []
   }, prefs => {
     document.getElementById('path').value = prefs.path;
     document.getElementById('enabled').checked = prefs.enabled;
@@ -31,6 +32,7 @@ function restore() {
     document.getElementById('faqs').checked = prefs.faqs;
     document.getElementById('closeme').checked = prefs.closeme;
     document.getElementById('hosts').value = prefs.hosts.join(', ');
+    document.getElementById('urls').value = prefs.urls.join(', ');
   });
 }
 
@@ -45,6 +47,7 @@ function save() {
   const faqs = document.getElementById('faqs').checked;
   const closeme = document.getElementById('closeme').checked;
   const hosts = document.getElementById('hosts').value;
+  const urls = document.getElementById('urls').value;
 
   chrome.storage.local.set({
     path,
@@ -59,7 +62,9 @@ function save() {
     hosts: hosts.split(/\s*,\s*/).map(s => s.replace('http://', '')
       .replace('https://', '')
       .split('/')[0].trim())
-      .filter((h, i, l) => h && l.indexOf(h) === i)
+      .filter((h, i, l) => h && l.indexOf(h) === i),
+    urls: urls.split(/\s*,\s*/).filter(s => s.startsWith('http') || s.startsWith('file'))
+      .filter((h, i, l) => h && l.indexOf(h) === i),
   }, () => {
     restore();
     const status = document.getElementById('status');

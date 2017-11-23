@@ -7,7 +7,8 @@ var config = {
   shiftKey: true,
   metaKey: false,
   enabled: false,
-  hosts: []
+  hosts: [],
+  urls: []
 };
 
 chrome.storage.local.get(config, prefs => config = prefs);
@@ -29,13 +30,26 @@ document.addEventListener('click', e => {
     return false;
   };
   // hostname on left-click
-  if (e.button === 0 && !e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey && config.hosts.length) {
-    const a = e.target.closest('a');
-    if (a) {
-      const host = a.hostname;
-      if (host) {
-        if (config.hosts.some(h => h.endsWith(host) || host.endsWith(h))) {
-          return redirect(a.href);
+  if (e.button === 0 && !e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+    if (config.hosts.length) {
+      const a = e.target.closest('a');
+      if (a) {
+        const host = a.hostname;
+        if (host) {
+          if (config.hosts.some(h => h.endsWith(host) || host.endsWith(h))) {
+            return redirect(a.href);
+          }
+        }
+      }
+    }
+    if (config.urls.length) {
+      const a = e.target.closest('a');
+      if (a) {
+        const href = a.href;
+        if (href) {
+          if (config.urls.some(h => href.startsWith(h))) {
+            return redirect(a.href);
+          }
         }
       }
     }

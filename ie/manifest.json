@@ -3,7 +3,7 @@
   "short_name": "ioiie",
   "description": "Open current page, link, or all tabs in the Internet Explorer browser.",
   "author": "Andy Portmen",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "manifest_version": 2,
   "permissions": [
     "storage",
@@ -43,11 +43,5 @@
   "options_ui": {
     "page": "data/options/index.html",
     "chrome_style": true
-  },
-  "applications": {
-    "gecko": {
-      "id": "{5610edea-88c1-4370-b93d-86aa131971d1}",
-      "strict_min_version": "52.0"
-    }
   }
 }
