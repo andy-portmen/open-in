@@ -11,7 +11,17 @@ var config = {
   urls: []
 };
 
-chrome.storage.local.get(config, prefs => config = prefs);
+chrome.storage.local.get(config, prefs => {
+  Object.assign(config, prefs);
+  chrome.storage.managed.get({
+    hosts: [],
+    urls: []
+  }, prefs => {
+    config.hosts.push(...prefs.hosts);
+    config.urls.push(...prefs.urls);
+  });
+});
+
 chrome.storage.onChanged.addListener(e => {
   Object.keys(e).forEach(n => {
     config[n] = e[n].newValue;
