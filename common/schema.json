@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "properties": {
+    "hosts": {
+      "title": "List of hosts",
+      "description": "List of domains to open with the external browser when the link is opened with left-click",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "urls": {
+      "title": "List of URLs",
+      "description": "List of URLs to open with the external browser when the link is opened with left-click",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

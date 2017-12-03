@@ -20,6 +20,9 @@
       "common.js"
     ]
   },
+  "storage": {
+    "managed_schema": "schema.json"
+  },
   "homepage_url": "http://add0n.com/open-in.html?from=edge",
   "icons": {
     "16": "data/icons/16.png",
