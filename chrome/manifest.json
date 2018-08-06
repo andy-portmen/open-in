@@ -3,7 +3,7 @@
   "short_name": "ioichrome",
   "description": "Open current page, link, or all tabs in the Chrome browser.",
   "author": "Andy Portmen",
-  "version": "0.1.8",
+  "version": "0.2.1",
   "manifest_version": 2,
   "permissions": [
     "storage",

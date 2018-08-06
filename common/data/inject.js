@@ -17,8 +17,10 @@ chrome.storage.local.get(config, prefs => {
     hosts: [],
     urls: []
   }, prefs => {
-    config.hosts.push(...prefs.hosts);
-    config.urls.push(...prefs.urls);
+    if (prefs) {
+      config.hosts.push(...prefs.hosts);
+      config.urls.push(...prefs.urls);
+    }
   });
 });
 

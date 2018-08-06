@@ -16,6 +16,10 @@
       "items": {
         "type": "string"
       }
+    },
+    "faqs": {
+      "title": "Open FAQs page on updates",
+      "type": "boolean"
     }
   }
 }

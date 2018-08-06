@@ -69,13 +69,13 @@
   <h2>Open with Left-Click</h2>
   <table>
     <tr>
-      <td colspan="2" style="text-align: left; white-space: normal;">Comma separated list of domains to open with the external browser when the link is opened with left-click</td>
+      <td colspan="2" style="text-align: left; white-space: normal;">Comma separated list of domains to open with the external browser when the link is opened with left-click<sup>2</sup></td>
     </tr>
     <tr>
       <td colspan="2"><textarea id="hosts" style="width: 100%" rows="3" placeholder="e.g.: www.google.com, bing.com"></textarea></td>
     </tr>
     <tr>
-      <td colspan="2" style="text-align: left; white-space: normal;">Comma separated list of URLs to open with the external browser when the link is opened with left-click</td>
+      <td colspan="2" style="text-align: left; white-space: normal;">Comma separated list of URLs to open with the external browser when the link is opened with left-click<sup>2</sup></td>
     </tr>
     <tr>
       <td colspan="2"><textarea id="urls" style="width: 100%" rows="3" placeholder="e.g.: https://www.google.com/, https://bing.com/"></textarea></td>
@@ -84,7 +84,7 @@
   <h2>Misc</h2>
   <table>
     <tr>
-      <td colspan="2" style="text-align: left;">Path to the executable:</td>
+      <td colspan="2" style="text-align: left;">Path to the executable<sup>1</sup>:</td>
     </tr>
     <tr>
       <td colspan="2"><input type="text" id="path" style="width: 100%; box-sizing: border-box;"></td>
@@ -101,10 +101,11 @@
 
   <hr>
   <p>
-    On Windows, if the path to the executable is not provided (is empty) <code id="l2"></code> is used. On Linux, if the path is not set, it is assumed <code id="l3"></code> binary can be found in the global PATH environment. On Mac OS, <code>open -a</code> command is used (with <code id="l4"></code> as the application or whatever is in the input).
+    1. On Windows, if the path to the executable is not provided (is empty) <code id="l2"></code> is used. On Linux, if the path is not set, it is assumed <code id="l3"></code> binary can be found in the global PATH environment. On Mac OS, <code>open -a</code> command is used (with <code id="l4"></code> as the application or whatever is in the input).
   </p>
-
+  <p>2. It is possible to use "managed storage" to set the default host and URL list. This is useful for administrators to force opening a set of URLs or hostnames in another browser. Instruction on how to setup the managed storage can be found in the FAQs page.</p>
   <div>
+    <button id="support">Support Development</button>
     <button id="save">Save</button>
     <span id="status"></span>
   </div>

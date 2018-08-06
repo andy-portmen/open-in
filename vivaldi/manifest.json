@@ -3,7 +3,7 @@
   "short_name": "ioivivaldi",
   "description": "Open current page, link, or all tabs in the Vivaldi browser.",
   "author": "Andy Portmen",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "manifest_version": 2,
   "permissions": [
     "storage",

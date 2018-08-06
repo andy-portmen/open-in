@@ -75,3 +75,6 @@ function save() {
 
 document.addEventListener('DOMContentLoaded', restore);
 document.getElementById('save').addEventListener('click', save);
+document.getElementById('support').addEventListener('click', () => chrome.tabs.create({
+  url: 'https://www.paypal.me/addondonation/10usd'
+}));
