@@ -43,24 +43,23 @@ document.addEventListener('click', e => {
   };
   // hostname on left-click
   if (e.button === 0 && !e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
-    if (config.hosts.length) {
+    if (config.hosts.length || config.urls.length) {
       const a = e.target.closest('a');
       if (a) {
-        const host = a.hostname;
-        if (host) {
-          if (config.hosts.some(h => h.endsWith(host) || host.endsWith(h))) {
-            return redirect(a.href);
+        if (config.hosts.length) {
+          const host = a.hostname;
+          if (host) {
+            if (config.hosts.some(h => h.endsWith(host) || host.endsWith(h))) {
+              return redirect(a.href);
+            }
           }
         }
-      }
-    }
-    if (config.urls.length) {
-      const a = e.target.closest('a');
-      if (a) {
-        const href = a.href;
-        if (href) {
-          if (config.urls.some(h => href.startsWith(h))) {
-            return redirect(a.href);
+        else {
+          const href = a.href;
+          if (href) {
+            if (config.urls.some(h => href.startsWith(h))) {
+              return redirect(a.href);
+            }
           }
         }
       }

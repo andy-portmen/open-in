@@ -74,13 +74,14 @@ function find(callback) {
   });
 }
 
-function open(tab) {
+function open(tab, noclose = false) {
   chrome.storage.local.get({
     path: null,
     closeme: false
   }, prefs => {
+    console.log(tab.url, prefs.closeme, noclose);
     function close() {
-      if (prefs.closeme) {
+      if (prefs.closeme && noclose === false) {
         chrome.tabs.remove(tab.id);
       }
     }
@@ -159,7 +160,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     open({
       url: info.linkUrl || info.pageUrl,
       id: tab.id
-    });
+    }, true);
   }
   else if (info.menuItemId === 'open-all') {
     chrome.tabs.query({
@@ -178,26 +179,26 @@ chrome.runtime.onMessage.addListener((request, sender) => {
     open({
       url: request.url,
       id: sender.tab.id
-    });
+    }, true);
   }
 });
 
 // FAQs & Feedback
 chrome.storage.local.get({
   'version': null,
-  'faqs': navigator.userAgent.indexOf('Firefox') === -1,
-  'last-update': 0,
+  'faqs': true,
+  'last-update': 0
 }, prefs => {
   const version = chrome.runtime.getManifest().version;
 
   if (prefs.version ? (prefs.faqs && prefs.version !== version) : true) {
     const now = Date.now();
-    const doUpdate = (now - prefs['last-update']) / 1000 / 60 / 60 / 24 > 30;
+    const doUpdate = (now - prefs['last-update']) / 1000 / 60 / 60 / 24 > 45;
     chrome.storage.local.set({
       version,
       'last-update': doUpdate ? Date.now() : prefs['last-update']
     }, () => {
-      // do not display the FAQs page if last-update occurred less than 30 days ago.
+      // do not display the FAQs page if last-update occurred less than 45 days ago.
       if (doUpdate) {
         const p = Boolean(prefs.version);
         chrome.tabs.create({
