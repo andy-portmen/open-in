@@ -20,6 +20,10 @@
     "faqs": {
       "title": "Open FAQs page on updates",
       "type": "boolean"
+    },
+    "reverse": {
+      "title": "Enable reversed left-click mode",
+      "type": "boolean"
     }
   }
 }

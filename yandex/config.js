@@ -3,6 +3,7 @@
 var app = {
   id: 'com.add0n.node',
   tag: 'yandex',
+  multiple: true
 };
 
 app.locale = {
@@ -22,7 +23,7 @@ app.runtime = {
   },
   windows: {
     name: 'cmd',
-    args: ['/s/c', 'start', 'yandex "%url;"'],
+    args: ['/s/c', 'start', 'yandex %url;'],
     prgfiles: '%LOCALAPPDATA%\\Yandex\\YandexBrowser\\Application\\browser.exe'
   }
 };

@@ -19,8 +19,10 @@ function restore() {
     button: 0,
     faqs: true,
     closeme: false,
+    multiple: app.multiple,
     hosts: [],
-    urls: []
+    urls: [],
+    reverse: false
   }, prefs => {
     document.getElementById('path').value = prefs.path;
     document.getElementById('enabled').checked = prefs.enabled;
@@ -31,8 +33,10 @@ function restore() {
     document.getElementById('button').selectedIndex = prefs.button;
     document.getElementById('faqs').checked = prefs.faqs;
     document.getElementById('closeme').checked = prefs.closeme;
+    document.getElementById('multiple').checked = prefs.multiple;
     document.getElementById('hosts').value = prefs.hosts.join(', ');
     document.getElementById('urls').value = prefs.urls.join(', ');
+    document.getElementById('reverse').checked = prefs.reverse;
   });
 }
 
@@ -46,8 +50,10 @@ function save() {
   const button = document.getElementById('button').selectedIndex;
   const faqs = document.getElementById('faqs').checked;
   const closeme = document.getElementById('closeme').checked;
+  const multiple = document.getElementById('multiple').checked;
   const hosts = document.getElementById('hosts').value;
   const urls = document.getElementById('urls').value;
+  const reverse = document.getElementById('reverse').checked;
 
   chrome.storage.local.set({
     path,
@@ -59,12 +65,14 @@ function save() {
     button,
     faqs,
     closeme,
+    multiple,
     hosts: hosts.split(/\s*,\s*/).map(s => s.replace('http://', '')
       .replace('https://', '')
       .split('/')[0].trim())
       .filter((h, i, l) => h && l.indexOf(h) === i),
     urls: urls.split(/\s*,\s*/).filter(s => s.startsWith('http') || s.startsWith('file'))
       .filter((h, i, l) => h && l.indexOf(h) === i),
+    reverse
   }, () => {
     restore();
     const status = document.getElementById('status');
@@ -76,5 +84,21 @@ function save() {
 document.addEventListener('DOMContentLoaded', restore);
 document.getElementById('save').addEventListener('click', save);
 document.getElementById('support').addEventListener('click', () => chrome.tabs.create({
-  url: 'https://www.paypal.me/addondonation/10usd'
+  url: chrome.runtime.getManifest().homepage_url + '&rd=donate'
 }));
+
+document.getElementById('save').addEventListener('click', save);
+document.getElementById('reset').addEventListener('click', e => {
+  if (e.detail === 1) {
+    const status = document.getElementById('status');
+    window.setTimeout(() => status.textContent = '', 750);
+    status.textContent = 'Double-click to reset!';
+  }
+  else {
+    localStorage.clear();
+    chrome.storage.local.clear(() => {
+      chrome.runtime.reload();
+      window.close();
+    });
+  }
+});

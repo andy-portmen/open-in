@@ -3,7 +3,7 @@
   "short_name": "ioiopera",
   "description": "Open current page, link, or all tabs in the Opera browser.",
   "author": "Andy Portmen",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "manifest_version": 2,
   "permissions": [
     "storage",
@@ -50,7 +50,7 @@
   "applications": {
     "gecko": {
       "id": "{8db82a75-48fd-452a-81cf-bd40b2e60dac}",
-      "strict_min_version": "52.0"
+      "strict_min_version": "59.0"
     }
   }
 }

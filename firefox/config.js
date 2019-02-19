@@ -3,6 +3,7 @@
 var app = {
   id: 'com.add0n.node',
   tag: 'firefox',
+  multiple: false
 };
 
 app.locale = {
@@ -22,7 +23,7 @@ app.runtime = {
   },
   windows: {
     name: 'cmd',
-    args: ['/s/c', 'start', 'firefox "%url;"'],
+    args: ['/s/c', 'start', 'firefox %url;'],
     prgfiles: '%ProgramFiles(x86)%\\Mozilla Firefox\\firefox.exe'
   }
 };

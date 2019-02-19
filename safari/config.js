@@ -3,6 +3,7 @@
 var app = {
   id: 'com.add0n.node',
   tag: 'safari',
+  multiple: true
 };
 
 app.locale = {
@@ -22,7 +23,7 @@ app.runtime = {
   },
   windows: {
     name: 'cmd',
-    args: ['/s/c', 'start', 'safari "%url;"'],
+    args: ['/s/c', 'start', 'safari %url;'],
     prgfiles: '%ProgramFiles(x86)%\\Safari\\Safari.exe'
   }
 };

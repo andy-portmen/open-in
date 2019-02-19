@@ -3,7 +3,7 @@
   "short_name": "ioifirefox",
   "description": "Open current page, link, or all tabs in the Firefox browser.",
   "author": "Andy Portmen",
-  "version": "0.2.6",
+  "version": "0.2.8",
   "manifest_version": 2,
   "permissions": [
     "storage",

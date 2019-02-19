@@ -3,7 +3,7 @@
   "short_name": "ioisafari",
   "description": "Open current page, link, or all tabs in the Safari browser.",
   "author": "Andy Portmen",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "manifest_version": 2,
   "permissions": [
     "storage",
@@ -50,7 +50,7 @@
   "applications": {
     "gecko": {
       "id": "{3128fe8f-f039-42ea-8b12-126f78387074}",
-      "strict_min_version": "52.0"
+      "strict_min_version": "59.0"
     }
   }
 }

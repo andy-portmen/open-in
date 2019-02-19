@@ -5,7 +5,7 @@ var os = {
   mac: navigator.userAgent.indexOf('Mac') !== -1,
   linux: navigator.userAgent.indexOf('Linux') !== -1
 };
-var isFirefox = navigator.userAgent.indexOf('Firefox') === -1;
+var isFirefox = navigator.userAgent.indexOf('Firefox') !== -1;
 
 function error(response) {
   window.alert(`Something went wrong!
@@ -27,7 +27,7 @@ function response(res, success = () => {}) {
     }, tabs => {
       if (tabs && tabs.length) {
         chrome.tabs.update(tabs[0].id, {
-          active: true,
+          active: true
         }, () => {
           chrome.windows.update(tabs[0].windowId, {
             focused: true
@@ -47,12 +47,18 @@ function response(res, success = () => {}) {
 }
 
 function exec(command, args, callback, properties = {}) {
-  chrome.runtime.sendNativeMessage(app.id, {
-    cmd: 'exec',
-    command,
-    arguments: args,
-    properties
-  }, res => (callback || response)(res));
+  if (command) {
+    chrome.runtime.sendNativeMessage(app.id, {
+      cmd: 'exec',
+      command,
+      arguments: args,
+      properties
+    }, res => (callback || response)(res));
+  }
+  else {
+    window.alert(`Please set the "${app.locale.name}" executable path in the options page`);
+    chrome.runtime.openOptionsPage();
+  }
 }
 
 function find(callback) {
@@ -74,41 +80,40 @@ function find(callback) {
   });
 }
 
-function open(tab, noclose = false) {
+
+var open = (urls, closeIDs = []) => {
   chrome.storage.local.get({
     path: null,
     closeme: false
   }, prefs => {
-    console.log(tab.url, prefs.closeme, noclose);
-    function close() {
-      if (prefs.closeme && noclose === false) {
-        chrome.tabs.remove(tab.id);
+    const close = () => {
+      if (prefs.closeme && closeIDs.length) {
+        chrome.tabs.remove(closeIDs);
       }
-    }
-
+    };
     if (os.mac) {
       if (prefs.path) {
         const length = app.runtime.mac.args.length;
         app.runtime.mac.args[length - 1] = prefs.path;
       }
-      exec('open', [...app.runtime.mac.args, tab.url], r => response(r, close));
+      exec('open', [...app.runtime.mac.args, ...urls], r => response(r, close));
     }
     else if (os.linux) {
-      exec(prefs.path || app.runtime.linux.name, [tab.url], r => response(r, close));
+      exec(prefs.path || app.runtime.linux.name, urls, r => response(r, close));
     }
     else {
       if (prefs.path) {
-        exec(prefs.path, [...(app.runtime.windows.args2 || []), tab.url], r => response(r, close));
+        exec(prefs.path, [...(app.runtime.windows.args2 || []), ...urls], r => response(r, close));
       }
       else {
         const args = app.runtime.windows.args
-          .map(a => a.replace('%url;', tab.url))
+          .map(a => a.replace('%url;', urls.join(' ')))
           // Firefox is not detaching the process on Windows
-          .map(s => s.replace('start ', isFirefox ? '' : 'start /WAIT '));
+          .map(s => s.replace('start', isFirefox ? 'start /WAIT' : 'start'));
         exec(app.runtime.windows.name, args, res => {
           // use old method
           if (res && res.code !== 0) {
-            find(() => open(tab.url));
+            find(() => open(urls, closeIDs));
           }
           else {
             response(res, close);
@@ -117,50 +122,56 @@ function open(tab, noclose = false) {
       }
     }
   });
-}
+};
+
 function delayOpen(tabs) {
-  const tab = tabs.shift();
-  if (tab) {
-    open(tab);
-    window.setTimeout(delayOpen, 1000, tabs);
-  }
+  chrome.storage.local.get({
+    multiple: app.multiple
+  }, prefs => {
+    if (prefs.multiple) {
+      return open(tabs.map(t => t.url), tabs.map(t => t.id));
+    }
+    const tab = tabs.shift();
+    if (tab) {
+      open([tab.url], [tab.id]);
+      window.setTimeout(delayOpen, 1000, tabs);
+    }
+  });
 }
 
 chrome.browserAction.onClicked.addListener(() => {
   chrome.tabs.query({
     active: true,
     currentWindow: true
-  }, tabs => open(tabs[0]));
+  }, tabs => open(tabs.map(t => t.url), tabs.map(t => t.id)));
 });
-
-(function(callback) {
+// context menu
+{
+  const callback = () => {
+    chrome.contextMenus.create({
+      id: 'open-current',
+      title: app.locale.current,
+      contexts: ['link'],
+      documentUrlPatterns: ['*://*/*']
+    });
+    chrome.contextMenus.create({
+      id: 'open-all',
+      title: app.locale.all,
+      contexts: ['browser_action']
+    });
+    chrome.contextMenus.create({
+      id: 'open-call',
+      title: app.locale.call,
+      contexts: ['browser_action']
+    });
+  };
   chrome.runtime.onInstalled.addListener(callback);
   chrome.runtime.onStartup.addListener(callback);
-})(function() {
-  chrome.contextMenus.create({
-    id: 'open-current',
-    title: app.locale.current,
-    contexts: ['link'],
-    documentUrlPatterns: ['*://*/*']
-  });
-  chrome.contextMenus.create({
-    id: 'open-all',
-    title: app.locale.all,
-    contexts: ['browser_action']
-  });
-  chrome.contextMenus.create({
-    id: 'open-call',
-    title: app.locale.call,
-    contexts: ['browser_action']
-  });
-});
+}
 
-chrome.contextMenus.onClicked.addListener((info, tab) => {
+chrome.contextMenus.onClicked.addListener(info => {
   if (info.menuItemId === 'open-current') {
-    open({
-      url: info.linkUrl || info.pageUrl,
-      id: tab.id
-    }, true);
+    open([info.linkUrl || info.pageUrl], []);
   }
   else if (info.menuItemId === 'open-all') {
     chrome.tabs.query({
@@ -176,44 +187,35 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 });
 chrome.runtime.onMessage.addListener((request, sender) => {
   if (request.cmd === 'open-in') {
-    open({
-      url: request.url,
-      id: sender.tab.id
-    }, true);
+    open([request.url], [sender.tab.id]);
   }
 });
 
 // FAQs & Feedback
-chrome.storage.local.get({
-  'version': null,
-  'faqs': true,
-  'last-update': 0
-}, prefs => {
-  const version = chrome.runtime.getManifest().version;
-
-  if (prefs.version ? (prefs.faqs && prefs.version !== version) : true) {
-    const now = Date.now();
-    const doUpdate = (now - prefs['last-update']) / 1000 / 60 / 60 / 24 > 45;
-    chrome.storage.local.set({
-      version,
-      'last-update': doUpdate ? Date.now() : prefs['last-update']
-    }, () => {
-      // do not display the FAQs page if last-update occurred less than 45 days ago.
-      if (doUpdate) {
-        const p = Boolean(prefs.version);
-        chrome.tabs.create({
-          url: chrome.runtime.getManifest().homepage_url + '&version=' + version +
-            '&type=' + (p ? ('upgrade&p=' + prefs.version) : 'install'),
-          active: p === false
-        });
-      }
-    });
-  }
-});
-
 {
-  const {name, version} = chrome.runtime.getManifest();
-  chrome.runtime.setUninstallURL(
-    chrome.runtime.getManifest().homepage_url + '&rd=feedback&name=' + name + '&version=' + version
-  );
+  const {onInstalled, setUninstallURL, getManifest} = chrome.runtime;
+  const {name, version} = getManifest();
+  const page = getManifest().homepage_url;
+  onInstalled.addListener(({reason, previousVersion}) => {
+    const prefs = {'faqs': true};
+    chrome.storage.managed.get(prefs, ps => {
+      chrome.storage.local.get(Object.assign(chrome.runtime.lastError ? prefs : ps || prefs, {
+        'last-update': 0
+      }), prefs => {
+        if (reason === 'install' || (prefs.faqs && reason === 'update')) {
+          const doUpdate = (Date.now() - prefs['last-update']) / 1000 / 60 / 60 / 24 > 45;
+          if (doUpdate && previousVersion !== version) {
+            chrome.tabs.create({
+              url: page + '&version=' + version +
+                (previousVersion ? '&p=' + previousVersion : '') +
+                '&type=' + reason,
+              active: reason === 'install'
+            });
+            chrome.storage.local.set({'last-update': Date.now()});
+          }
+        }
+      });
+    });
+  });
+  setUninstallURL(page + '&rd=feedback&name=' + encodeURIComponent(name) + '&version=' + version);
 }

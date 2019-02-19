@@ -3,7 +3,7 @@
   "short_name": "ioivivaldi",
   "description": "Open current page, link, or all tabs in the Vivaldi browser.",
   "author": "Andy Portmen",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "manifest_version": 2,
   "permissions": [
     "storage",
@@ -50,7 +50,7 @@
   "applications": {
     "gecko": {
       "id": "{0bcb72f8-7da8-4071-905c-2de13f5aad3a}",
-      "strict_min_version": "52.0"
+      "strict_min_version": "59.0"
     }
   }
 }

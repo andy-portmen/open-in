@@ -1,9 +1,9 @@
 {
-  "name": "Open in MS Edge™",
-  "short_name": "ioiedge",
-  "description": "Open current page, link, or all tabs in the Microsoft Edge™ browser",
+  "name": "Open in Chromium Browser",
+  "short_name": "ioichromium",
+  "description": "Open current page, link, or all tabs in the Chromium browser.",
   "author": "Andy Portmen",
-  "version": "0.2.0",
+  "version": "0.1.2",
   "manifest_version": 2,
   "permissions": [
     "storage",
@@ -23,7 +23,7 @@
   "storage": {
     "managed_schema": "schema.json"
   },
-  "homepage_url": "http://add0n.com/open-in.html?from=edge",
+  "homepage_url": "http://add0n.com/open-in.html?from=chromium",
   "icons": {
     "16": "data/icons/16.png",
     "32": "data/icons/32.png",
@@ -49,7 +49,7 @@
   },
   "applications": {
     "gecko": {
-      "id": "{94782f74-1a58-4332-a803-00006221a9d0}",
+      "id": "{4d3bd246-4326-4ec1-bb49-a27cfd57ca08}",
       "strict_min_version": "59.0"
     }
   }

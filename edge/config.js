@@ -3,6 +3,7 @@
 var app = {
   id: 'com.add0n.node',
   tag: 'edge',
+  multiple: false
 };
 
 app.locale = {
