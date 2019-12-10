@@ -23,7 +23,7 @@ app.runtime = {
   },
   windows: {
     name: 'cmd',
-    args: ['/s/c', 'start', 'chrome %url;'],
+    args: ['/s/c', 'start', 'chrome "%url;"'],
     prgfiles: '%ProgramFiles(x86)%\\Google\\Chrome\\Application\\chrome.exe'
   }
 };

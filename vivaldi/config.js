@@ -23,7 +23,7 @@ app.runtime = {
   },
   windows: {
     name: 'cmd',
-    args: ['/s/c', 'start', 'vivaldi %url;'],
+    args: ['/s/c', 'start', 'vivaldi "%url;"'],
     prgfiles: '%LOCALAPPDATA%\\Vivaldi\\Application\\vivaldi.exe'
   }
 };

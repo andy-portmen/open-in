@@ -3,15 +3,16 @@
   "short_name": "ioifirefox",
   "description": "Open current page, link, or all tabs in the Firefox browser.",
   "author": "Andy Portmen",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "manifest_version": 2,
   "permissions": [
     "storage",
     "tabs",
     "contextMenus",
-    "nativeMessaging",
-    "downloads",
-    "https://api.github.com/repos/andy-portmen/native-client/releases/latest"
+    "nativeMessaging"
+  ],
+  "optional_permissions": [
+    "downloads"
   ],
   "background": {
     "persistent": false,
@@ -23,7 +24,7 @@
   "storage": {
     "managed_schema": "schema.json"
   },
-  "homepage_url": "http://add0n.com/open-in.html?from=firefox",
+  "homepage_url": "https://add0n.com/open-in.html?from=firefox",
   "icons": {
     "16": "data/icons/16.png",
     "32": "data/icons/32.png",

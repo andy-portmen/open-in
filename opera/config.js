@@ -23,7 +23,7 @@ app.runtime = {
   },
   windows: {
     name: 'cmd',
-    args: ['/s/c', 'start', 'opera %url;'],
+    args: ['/s/c', 'start', 'opera "%url;"'],
     prgfiles: '%ProgramFiles%\\Opera\\launcher.exe'
   }
 };

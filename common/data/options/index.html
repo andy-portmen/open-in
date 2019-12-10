@@ -17,6 +17,12 @@
     .tbl td:last-child {
       text-align: right;
     }
+    .admin {
+      background-color: #ffffed;
+      border: solid 1px #e8ec3a;
+      padding: 10px;
+      margin: 15px 0;
+    }
     code {
       background-color: rgba(0, 0, 0, 0.05);
       padding: 0 3px;
@@ -79,7 +85,7 @@
       <td colspan="2"><textarea id="urls" style="width: 100%" rows="3" placeholder="e.g.: https://www.google.com/, https://bing.com/"></textarea></td>
     </tr>
   </table>
-  <label style="display: inline-flex; align-items: center;"><input type="checkbox" id="reverse">&nbsp;Reverse Mode (experimental feature)</label><sup>5</sup>
+  <label style="display: inline-flex; align-items: center;"><input type="checkbox" id="reverse">&nbsp;Reverse Mode (experimental feature)<sup>5</sup></label>
   <h2>Misc</h2>
   <table class="tbl">
     <tbody>
@@ -107,6 +113,8 @@
       </tr>
     </tbody>
   </table>
+
+  <div class="admin">This extension supports managed storage. Some of the preferences can be pre-configured by <a href="https://add0n.com/open-in.html#faq17">the domain administrator</a></div>
 
   <div id="explore" data-inc=50></div>
   <p>

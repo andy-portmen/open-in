@@ -23,7 +23,7 @@ app.runtime = {
   },
   windows: {
     name: 'cmd',
-    args: ['/s/c', 'start', 'yandex %url;'],
+    args: ['/s/c', 'start', 'yandex "%url;"'],
     prgfiles: '%LOCALAPPDATA%\\Yandex\\YandexBrowser\\Application\\browser.exe'
   }
 };

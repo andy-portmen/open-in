@@ -23,7 +23,7 @@ app.runtime = {
   },
   windows: {
     name: 'cmd',
-    args: ['/s/c', 'start', 'iexplore %url;'],
+    args: ['/s/c', 'start', 'iexplore "%url;"'],
     prgfiles: '%ProgramFiles%\\Internet Explorer\\iexplore.exe'
   }
 };

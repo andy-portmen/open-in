@@ -1,9 +1,8 @@
 {
-  "name": "Open in Vivaldi",
-  "short_name": "ioivivaldi",
-  "description": "Open current page, link, or all tabs in the Vivaldi browser.",
+  "name": "Open in Brave Browser",
+  "description": "Open current page, link, or all tabs in the Brave browser",
   "author": "Andy Portmen",
-  "version": "0.1.9",
+  "version": "0.1.1",
   "manifest_version": 2,
   "permissions": [
     "storage",
@@ -24,7 +23,7 @@
   "storage": {
     "managed_schema": "schema.json"
   },
-  "homepage_url": "https://add0n.com/open-in.html?from=vivaldi",
+  "homepage_url": "https://add0n.com/open-in.html?from=brave",
   "icons": {
     "16": "data/icons/16.png",
     "32": "data/icons/32.png",

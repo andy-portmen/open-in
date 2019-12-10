@@ -1,6 +1,6 @@
 'use strict';
 
-var config = {
+const config = {
   button: 0,
   altKey: true,
   ctrlKey: false,
@@ -12,8 +12,34 @@ var config = {
   reverse: false
 };
 
+const validate = (a, callback) => {
+  if (config.hosts.length) {
+    const host = a.hostname;
+    if (host) {
+      if (config.hosts.some(h => h.endsWith(host) || host.endsWith(h))) {
+        return config.reverse ? '' : callback(a.href);
+      }
+    }
+  }
+  else {
+    const href = a.href;
+    if (href) {
+      if (config.urls.some(h => href.startsWith(h))) {
+        return config.reverse ? '' : callback(a.href);
+      }
+    }
+  }
+  // reverse mode
+  if (config.reverse && a.href && a.href.indexOf('#') === -1) {
+    if (a.href.startsWith('http') || a.href.startsWith('file')) {
+      return callback(a.href);
+    }
+  }
+};
+console.log(999);
 chrome.storage.local.get(config, prefs => {
   Object.assign(config, prefs);
+  // managed
   chrome.storage.managed.get({
     hosts: [],
     urls: []
@@ -21,6 +47,21 @@ chrome.storage.local.get(config, prefs => {
     if (!chrome.runtime.lastError) {
       config.hosts.push(...prefs.hosts);
       config.urls.push(...prefs.urls);
+    }
+    // top level redirect
+    if (window.top === window) {
+      validate(location, url => {
+        if (history.length) {
+          history.back();
+        }
+        else {
+          window.stop();
+        }
+        chrome.runtime.sendMessage({
+          cmd: 'open-in',
+          url
+        });
+      });
     }
   });
 });
@@ -51,28 +92,7 @@ document.addEventListener('click', e => {
           const link = decodeURIComponent(a.href.split('&url=')[1].split('&')[0]);
           a = new URL(link);
         }
-        if (config.hosts.length) {
-          const host = a.hostname;
-          if (host) {
-            if (config.hosts.some(h => h.endsWith(host) || host.endsWith(h))) {
-              return config.reverse ? '' : redirect(a.href);
-            }
-          }
-        }
-        else {
-          const href = a.href;
-          if (href) {
-            if (config.urls.some(h => href.startsWith(h))) {
-              return config.reverse ? '' : redirect(a.href);
-            }
-          }
-        }
-        // reverse mode
-        if (config.reverse && a.href && a.href.indexOf('#') === -1) {
-          if (a.href.startsWith('http') || a.href.startsWith('file')) {
-            return redirect(a.href);
-          }
-        }
+        validate(a, redirect);
       }
     }
   }

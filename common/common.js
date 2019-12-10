@@ -1,11 +1,11 @@
 /* globals app */
 'use strict';
 
-var os = {
+const os = {
   mac: navigator.userAgent.indexOf('Mac') !== -1,
   linux: navigator.userAgent.indexOf('Linux') !== -1
 };
-var isFirefox = navigator.userAgent.indexOf('Firefox') !== -1;
+const isFirefox = navigator.userAgent.indexOf('Firefox') !== -1;
 
 function error(response) {
   window.alert(`Something went wrong!
@@ -68,10 +68,9 @@ function find(callback) {
     if (res && res.env && res.env.ProgramFiles) {
       chrome.storage.local.set({
         path: app.runtime.windows.prgfiles
-          .replace('(x86)', window.navigator.platform === 'Win32' ? '' : '(x86)')
           .replace('%LOCALAPPDATA%', res.env.LOCALAPPDATA)
-          .replace('%ProgramFiles%', res.env.ProgramFiles)
           .replace('%ProgramFiles(x86)%', res.env['ProgramFiles(x86)'])
+          .replace('%ProgramFiles%', res.env.ProgramFiles)
       }, callback);
     }
     else {
@@ -81,7 +80,7 @@ function find(callback) {
 }
 
 
-var open = (urls, closeIDs = []) => {
+const open = (urls, closeIDs = []) => {
   chrome.storage.local.get({
     path: null,
     closeme: false
