@@ -36,7 +36,6 @@ const validate = (a, callback) => {
     }
   }
 };
-console.log(999);
 chrome.storage.local.get(config, prefs => {
   Object.assign(config, prefs);
   // managed
