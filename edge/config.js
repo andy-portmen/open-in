@@ -16,7 +16,7 @@ app.locale = {
 
 app.runtime = {
   mac: {
-    args: ['-a', 'microsoft-edge']
+    args: ['-a', 'Microsoft Edge']
   },
   linux: {
     name: 'microsoft-edge'
