@@ -7,7 +7,7 @@ var app = {
 };
 
 app.locale = {
-  name: 'Firefox',
+  name: 'Yandex',
   current: 'Open Link in Yandex Browser',
   all: 'Open all Tabs in Yandex Browser',
   call: 'Open all Tabs in Yandex Browser (Current window)',

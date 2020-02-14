@@ -1,6 +1,5 @@
 {
   "name": "Open in Yandex browser",
-  "short_name": "ioyandex",
   "description": "Open current page, link, or all tabs in the Yandex browser.",
   "author": "Andy Portmen",
   "version": "0.1.5",

@@ -1,8 +1,8 @@
 {
-  "name": "Open in MS Edge™",
-  "description": "Open current page, link, or all tabs in the Microsoft Edge™ browser",
+  "name": "Open in Waterfox",
+  "description": "Open current page, link, or all tabs in the Waterfox browser.",
   "author": "Andy Portmen",
-  "version": "0.2.2",
+  "version": "0.1.0",
   "manifest_version": 2,
   "permissions": [
     "storage",
@@ -23,7 +23,7 @@
   "storage": {
     "managed_schema": "schema.json"
   },
-  "homepage_url": "https://add0n.com/open-in.html?from=edge",
+  "homepage_url": "https://add0n.com/open-in.html?from=waterfox",
   "icons": {
     "16": "data/icons/16.png",
     "32": "data/icons/32.png",
