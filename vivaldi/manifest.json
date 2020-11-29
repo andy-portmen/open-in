@@ -1,6 +1,5 @@
 {
   "name": "Open in Vivaldi",
-  "short_name": "ioivivaldi",
   "description": "Open current page, link, or all tabs in the Vivaldi browser.",
   "author": "Andy Portmen",
   "version": "0.1.9",
@@ -39,10 +38,12 @@
     "matches": ["<all_urls>"],
     "js": ["data/inject.js"],
     "run_at": "document_start",
-    "all_frames": true
+    "all_frames": true,
+    "match_about_blank": true
   }],
   "options_ui": {
     "page": "data/options/index.html",
-    "chrome_style": true
+    "chrome_style": true,
+    "open_in_tab": true
   }
 }

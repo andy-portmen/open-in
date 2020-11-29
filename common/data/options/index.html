@@ -4,9 +4,6 @@
   <title>Open In Options</title>
   <meta charset="UTF-8">
   <style>
-    body {
-      min-width: 500px;
-    }
     table.tbl {
       width: 100%;
     }
@@ -44,6 +41,11 @@
     }
     li {
       margin-bottom: 5px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr min-content;
+      grid-gap: 5px;
     }
   </style>
 </head>
@@ -85,34 +87,27 @@
       <td colspan="2"><textarea id="urls" style="width: 100%" rows="3" placeholder="e.g.: https://www.google.com/, https://bing.com/"></textarea></td>
     </tr>
   </table>
-  <label style="display: inline-flex; align-items: center;"><input type="checkbox" id="reverse">&nbsp;Reverse Mode<sup>5</sup></label>
+  <div class="grid">
+    <label for="reverse">Reverse Mode<sup>5</sup></label>
+    <input type="checkbox" id="reverse">
+    <label for="topRedict">Consider even top-level navigation<sup>6</sup></label>
+    <input type="checkbox" id="topRedict">
+  </div>
   <h2>Misc</h2>
-  <table class="tbl">
-    <tbody>
-      <tr>
-        <td><label for="closeme">Close the source tab when link is pushed</label></td>
-        <td><input type="checkbox" id="closeme"></td>
-      </tr>
-      <tr>
-        <td><label for="multiple">Open multiple links at once<sup>3</sup></label></td>
-        <td><input type="checkbox" id="multiple"></td>
-      </tr>
-      <tr>
-        <td><label for="faqs">Open FAQs page on updates</label></td>
-        <td><input type="checkbox" id="faqs"></td>
-      </tr>
-      <tr>
-        <td colspan="2" style="text-align: left;">Path to the executable<sup>2</sup>:</td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <div style="display: flex;">
-            <input type="text" id="path" style="flex: 1;">
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="grid">
+    <label for="closeme">Close the source tab when link is pushed</label>
+    <input type="checkbox" id="closeme">
+    <label for="multiple">Open multiple links at once<sup>3</sup></label>
+    <input type="checkbox" id="multiple">
+    <label for="faqs">Open FAQs page on updates</label>
+    <input type="checkbox" id="faqs">
+  </div>
+  <div>
+    <span style="margin-top: 10px; margin-bottom: 5px; display: block">Path to the executable<sup>2</sup>:</span>
+    <div style="display: flex;">
+      <input type="text" id="path" style="flex: 1;">
+    </div>
+  </div>
 
   <div class="admin">This extension supports managed storage. Some of the preferences can be pre-configured by <a href="https://add0n.com/open-in.html#faq17">the domain administrator</a></div>
 
@@ -130,6 +125,7 @@
     <li>By activating this option all the requested URLs are sent to the external executable at once. Only activate this option if the external executable is capable of handling this type of requests.</li>
     <li>Not all key combinations are allowed in all operating systems.</li>
     <li>When enabled, all left-click links except the ones that match with at least one condition will be sent to the external executable.</li>
+    <li>If checked, the extension validates top-level navigation with the list of left-click hostnames and URLs. If matched, the URL is sent to the external executable, and the navigation is blocked.</li>
   </ol style="padding-left: 1.8em;">
 
   <script src="../../config.js"></script>

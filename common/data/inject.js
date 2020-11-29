@@ -9,10 +9,11 @@ const config = {
   enabled: false,
   hosts: [],
   urls: [],
-  reverse: false
+  reverse: false,
+  topRedict: false
 };
 
-const validate = (a, callback) => {
+const validate = (a, callback, isTop = false) => {
   if (config.hosts.length) {
     const host = a.hostname;
     if (host) {
@@ -30,7 +31,7 @@ const validate = (a, callback) => {
     }
   }
   // reverse mode
-  if (config.reverse && a.href && a.href.indexOf('#') === -1) {
+  if (config.reverse && a.href && (a.href.indexOf('#') === -1 || isTop)) {
     if (a.href.startsWith('http') || a.href.startsWith('file')) {
       return callback(a.href);
     }
@@ -50,7 +51,7 @@ chrome.storage.local.get(config, prefs => {
       config.reverse = config.reverse || prefs.reverse;
     }
     // top level redirect
-    if (window.top === window) {
+    if (window.top === window && config.topRedict) {
       validate(location, url => {
         if (history.length) {
           history.back();
@@ -62,7 +63,39 @@ chrome.storage.local.get(config, prefs => {
           cmd: 'open-in',
           url
         });
-      });
+      }, true);
+    }
+    // Gmail attachments
+    // https://github.com/andy-portmen/open-in/issues/42
+    if (window.top === window && location.hostname === 'mail.google.com') {
+      validate(location, () => {
+        const script = document.createElement('script');
+        script.textContent = `{
+          const script = document.currentScript;
+          const hps = Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype, 'src');
+          Object.defineProperty(HTMLIFrameElement.prototype, 'src', {
+            set(v) {
+              if (v && v.indexOf('&view=att&') !== -1) {
+                script.dispatchEvent(new CustomEvent('open-request', {
+                  detail: v
+                }));
+              }
+              else {
+                hps.set.call(this, v);
+              }
+            }
+          });
+        }`;
+        script.addEventListener('open-request', e => {
+          e.stopPropagation();
+          chrome.runtime.sendMessage({
+            cmd: 'open-in',
+            url: e.detail
+          });
+        });
+        document.documentElement.appendChild(script);
+        script.remove();
+      }, true);
     }
   });
 });
@@ -86,7 +119,7 @@ document.addEventListener('click', e => {
   };
   // hostname on left-click
   if (e.button === 0 && !e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
-    if (config.hosts.length || config.urls.length) {
+    if (config.hosts.length || config.urls.length || config.reverse) {
       let a = e.target.closest('a');
       if (a) {
         if (a.href.startsWith('https://www.google') && a.href.indexOf('&url=') !== -1) {

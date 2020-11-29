@@ -22,7 +22,8 @@ function restore() {
     multiple: app.multiple,
     hosts: [],
     urls: [],
-    reverse: false
+    reverse: false,
+    topRedict: false
   }, prefs => {
     document.getElementById('path').value = prefs.path;
     document.getElementById('enabled').checked = prefs.enabled;
@@ -37,6 +38,7 @@ function restore() {
     document.getElementById('hosts').value = prefs.hosts.join(', ');
     document.getElementById('urls').value = prefs.urls.join(', ');
     document.getElementById('reverse').checked = prefs.reverse;
+    document.getElementById('topRedict').checked = prefs.topRedict;
   });
 }
 
@@ -54,6 +56,7 @@ function save() {
   const hosts = document.getElementById('hosts').value;
   const urls = document.getElementById('urls').value;
   const reverse = document.getElementById('reverse').checked;
+  const topRedict = document.getElementById('topRedict').checked;
 
   chrome.storage.local.set({
     path,
@@ -72,7 +75,8 @@ function save() {
       .filter((h, i, l) => h && l.indexOf(h) === i),
     urls: urls.split(/\s*,\s*/).filter(s => s.startsWith('http') || s.startsWith('file'))
       .filter((h, i, l) => h && l.indexOf(h) === i),
-    reverse
+    reverse,
+    topRedict
   }, () => {
     restore();
     const status = document.getElementById('status');
