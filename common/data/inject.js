@@ -47,6 +47,7 @@ chrome.storage.local.get(config, prefs => {
     if (!chrome.runtime.lastError) {
       config.hosts.push(...prefs.hosts);
       config.urls.push(...prefs.urls);
+      config.reverse = config.reverse || prefs.reverse;
     }
     // top level redirect
     if (window.top === window) {
