@@ -41,7 +41,8 @@ chrome.storage.local.get(config, prefs => {
   // managed
   chrome.storage.managed.get({
     hosts: [],
-    urls: []
+    urls: [],
+    reverse: false
   }, prefs => {
     if (!chrome.runtime.lastError) {
       config.hosts.push(...prefs.hosts);
