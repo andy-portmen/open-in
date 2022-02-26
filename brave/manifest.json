@@ -1,8 +1,7 @@
 {
   "name": "Open in Brave Browser",
   "description": "Open current page, link, or all tabs in the Brave browser",
-  "author": "Andy Portmen",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "manifest_version": 2,
   "permissions": [
     "storage",
